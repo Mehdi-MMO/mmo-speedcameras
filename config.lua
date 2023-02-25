@@ -3,21 +3,16 @@ Config = {}
 
 -- OPTIONS: (true/false)
 Config.useBilling = true
+Config.SendEmail = true
 Config.useCameraSound = true
 Config.useFlashingScreen = true
-Config.useBlips = false
-
+Config.useBlips = true
 Config.alertSpeed = 150 -- (1-5000 MPH)
 
 -- The speeding ticket price range
-Config.defaultPrice45 = math.random(30, 45)
-Config.defaultPrice55 = math.random(50, 75)
-Config.defaultPrice70 = math.random(80, 90)
-
+Config.defaultPrice = {math.random(30, 45), math.random(50, 75), math.random(80, 90)}
 -- Over Limit Price Adds
-Config.extraZonePrice10 = 3
-Config.extraZonePrice20 = 5
-Config.extraZonePrice30 = 8
+Config.extraZonePrice = {10, 20, 30}
 
 Config.blips = { -- 45 MPH ZONES
 {
@@ -73,7 +68,7 @@ Config.blips = { -- 45 MPH ZONES
     z = 53.0930
 }}
 
--- AREAS
+-- 45 MPH ZONES
 Config.Speedcamera45Zone = {{
     x = -524.2645,
     y = -1776.3569,
@@ -85,6 +80,7 @@ Config.Speedcamera45Zone = {{
 } -- PB Hospital
 }
 
+-- 55 MPH ZONES
 Config.Speedcamera55Zone = {{
     x = 2506.0671,
     y = 4145.2431,
@@ -99,6 +95,7 @@ Config.Speedcamera55Zone = {{
     z = 92.2374
 }}
 
+-- 70MPH ZONES
 Config.Speedcamera70Zone = {{
     x = 1584.9281,
     y = -993.4557,

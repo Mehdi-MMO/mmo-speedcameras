@@ -1,24 +1,6 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterServerEvent('mmo-speedcameras:PayBill45Zone', function(amount, street1name, street2name, SpeedMPH)
-    local Player = QBCore.Functions.GetPlayer(source)
-    local src = source
-
-    Player.Functions.RemoveMoney('bank', amount)
-    exports['qb-management']:AddMoney("police", amount)
-    TriggerClientEvent('mmo-speedcameras:client:SendBillEmail', src, amount, street1name, street2name, SpeedMPH)
-end)
-
-RegisterServerEvent('mmo-speedcameras:PayBill55Zone', function(amount, street1name, street2name, SpeedMPH)
-    local Player = QBCore.Functions.GetPlayer(source)
-    local src = source
-
-    Player.Functions.RemoveMoney('bank', amount)
-    exports['qb-management']:AddMoney("police", amount)
-    TriggerClientEvent('mmo-speedcameras:client:SendBillEmail', src, amount, street1name, street2name, SpeedMPH)
-end)
-
-RegisterServerEvent('mmo-speedcameras:PayBill70Zone', function(amount, street1name, street2name, SpeedMPH)
+RegisterServerEvent('mmo-speedcameras:PayBill', function(amount, street1name, street2name, SpeedMPH)
     local Player = QBCore.Functions.GetPlayer(source)
     local src = source
 

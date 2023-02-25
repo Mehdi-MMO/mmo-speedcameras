@@ -4,7 +4,7 @@ lua54 'yes'
 
 title "mmo-speedcameras"
 author "Mehdi MMO - Sweet Vibes#7561"
-description "A QBCore Based SpeedCameras Script "
+description "A QBCore SpeedCameras Script "
 version "1.0.0"
 
 -- Discord http://discord.gg/FqQFzndxZ4
