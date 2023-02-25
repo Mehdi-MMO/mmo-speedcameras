@@ -20,3 +20,6 @@ This is a straightforward tool for placing speed cameras throughout the city.
 - Make any changes you wish to the `config.lua`
 - Drag folder into your `resources/[qb]` folder
 - Restart server
+
+## Credits
+[MrEvilGamer](https://github.com/MrEvilGamer)
