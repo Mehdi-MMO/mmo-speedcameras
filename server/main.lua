@@ -1,12 +1,14 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterServerEvent('mmo-speedcameras:PayBill', function(amount, street1name, street2name, SpeedMPH)
-    local Player = QBCore.Functions.GetPlayer(source)
-    local src = source
+    local player = QBCore.Functions.GetPlayer(source)
+    if not player then
+        return
+    end
 
-    Player.Functions.RemoveMoney('bank', amount)
-    exports['qb-management']:AddMoney("police", amount)
-    TriggerClientEvent('mmo-speedcameras:client:SendBillEmail', src, amount, street1name, street2name, SpeedMPH)
+    player.Functions.RemoveMoney('bank', amount)
+    exports['qb-management']:AddMoney('police', amount)
+    TriggerClientEvent('mmo-speedcameras:client:SendBillEmail', source, amount, street1name, street2name, SpeedMPH)
 end)
 
 RegisterServerEvent('mmo-speedcameras:openGUI', function()
