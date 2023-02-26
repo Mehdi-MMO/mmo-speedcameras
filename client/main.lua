@@ -1,5 +1,9 @@
 -- Discord http://discord.gg/FqQFzndxZ4
-QBCore = exports['qb-core']:GetCoreObject()
+if Config.useNDCore then
+    NDCore = exports["ND_Core"]:GetCoreObject()
+else
+    QBCore = exports['qb-core']:GetCoreObject()
+end
 
 local hasBeenCaught = false
 local finalBillingPrice = 0;
@@ -27,6 +31,27 @@ CreateThread(function()
     end
 end)
 
+local function caughtCheck(finalBillingPrice, street1name, street2name, SpeedMPH)
+    if Config.useFlashingScreen then
+        TriggerServerEvent('mmo-speedcameras:openGUI')
+        Citizen.Wait(600)
+        TriggerServerEvent('mmo-speedcameras:closeGUI')
+    end
+
+    if Config.useCameraSound then
+        TriggerServerEvent("InteractSound_SV:PlayOnSource", "speedcamera", 0.5)
+    end
+
+    if alertPolice and SpeedMPH > Config.alertSpeed then
+        local x, y, z = table.unpack(GetEntityCoords(PlayerPedId(), false))
+    end
+
+    if Config.useBilling == 0 then
+        finalBillingPrice = 0
+    end
+    TriggerServerEvent('mmo-speedcameras:PayBill', finalBillingPrice, street1name, street2name, math.floor(SpeedMPH))
+end
+
 local function caughtPayIt(playerPed, playerCar, veh, SpeedMPH, playerPos, maxSpeed)
     if SpeedMPH <= maxSpeed or hasBeenCaught then
         return
@@ -38,8 +63,11 @@ local function caughtPayIt(playerPed, playerCar, veh, SpeedMPH, playerPos, maxSp
     end
 
     hasBeenCaught = true
-
     local plate = QBCore.Functions.GetPlate(veh)
+
+    if Config.useNDCore then
+        plate = GetVehicleNumberPlateText(veh)
+    end
 
     local street1, street2 = GetStreetNameAtCoord(playerPos.x, playerPos.y, playerPos.z)
     local street1name = GetStreetNameFromHashKey(street1)
@@ -57,45 +85,27 @@ local function caughtPayIt(playerPed, playerCar, veh, SpeedMPH, playerPos, maxSp
 
     local finalBillingPrice = baseFine + additionalFine
 
-    QBCore.Functions.GetPlayerData(function(playerData)
-        if playerData.job.name ~= "police" and playerData.job.name ~= "ambulance" then
+    if Config.useNDCore then
+        local playerData = NDCore.Functions.GetSelectedCharacter()
+        if not Config.byPassedJobs[playerData.job] then
             if Config.useBilling then
-
-                if Config.useFlashingScreen then
-                    TriggerServerEvent('mmo-speedcameras:openGUI')
-                    Wait(600)
-                    TriggerServerEvent('mmo-speedcameras:closeGUI')
-                end
-
-                if Config.useCameraSound then
-                    TriggerServerEvent("InteractSound_SV:PlayOnSource", "speedcamera", 0.5)
-                end
-
-                if alertPolice and SpeedMPH > Config.alertSpeed then
-                    local x, y, z = table.unpack(GetEntityCoords(PlayerPedId(), false))
-                end
-
+                caughtCheck(finalBillingPrice, street1name, street2name, SpeedMPH)
             else
-
-                if Config.useFlashingScreen then
-                    TriggerServerEvent('mmo-speedcameras:openGUI')
-                    Wait(600)
-                    TriggerServerEvent('mmo-speedcameras:closeGUI')
-                end
-
-                if Config.useCameraSound then
-                    TriggerServerEvent("InteractSound_SV:PlayOnSource", "speedcamera", 0.5)
-                end
-
-                if alertPolice and SpeedMPH > Config.alertSpeed then
-                    local x, y, z = table.unpack(GetEntityCoords(PlayerPedId(), false))
-                end
-
+                caughtCheck(finalBillingPrice, street1name, street2name, SpeedMPH)
             end
-            TriggerServerEvent('mmo-speedcameras:PayBill', finalBillingPrice, street1name, street2name,
-                math.floor(SpeedMPH))
         end
-    end)
+    else
+        QBCore.Functions.GetPlayerData(function(playerData)
+            if not Config.byPassedJobs[playerData.job.name] then
+                if Config.useBilling then
+                    caughtCheck(finalBillingPrice, street1name, street2name, SpeedMPH)
+                else
+                    caughtCheck(finalBillingPrice, street1name, street2name, SpeedMPH)
+                end
+            end
+        end)
+    end
+
 end
 
 -- Define a function to handle speed cameras for a given zone and maximum speed

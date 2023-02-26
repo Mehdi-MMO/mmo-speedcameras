@@ -2,12 +2,19 @@
 Config = {}
 
 -- OPTIONS: (true/false)
+Config.useNDCore = false -- false for qbcore
+Config.byPassedJobs = {
+    ["LSPD"] = true,
+    ["EMS"] = true,
+    ["police"] = true,
+    ["ambulance"] = true
+}
 Config.useBilling = true
 Config.SendEmail = true
 Config.useCameraSound = true
 Config.useFlashingScreen = true
 Config.useBlips = true
-Config.alertSpeed = 150 -- (1-5000 MPH)
+Config.alertSpeed = 150 -- (1-1000 MPH)
 
 -- The speeding ticket price range
 Config.defaultPrice = {math.random(30, 45), math.random(50, 75), math.random(80, 90)}
