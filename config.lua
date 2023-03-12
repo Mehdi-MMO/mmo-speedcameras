@@ -17,7 +17,8 @@ Config.useBlips = true
 Config.alertSpeed = 150 -- (1-1000 MPH)
 
 -- The speeding ticket price range
-Config.defaultPrice = {math.random(30, 45), math.random(50, 75), math.random(80, 90)}
+-- 45, 55, 70
+Config.defaultPrice = {math.random(30, 45) , math.random(50, 75) , math.random(80, 90)}
 -- Over Limit Price Adds
 Config.extraZonePrice = {10, 20, 30}
 

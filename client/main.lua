@@ -39,7 +39,7 @@ local function caughtCheck(finalBillingPrice, street1name, street2name, SpeedMPH
     end
 
     if Config.useCameraSound then
-        TriggerServerEvent("InteractSound_SV:PlayOnSource", "speedcamera", 0.5)
+        TriggerServerEvent("InteractSound_SV:PlayOnSource", "soundy", 0.5)
     end
 
     if alertPolice and SpeedMPH > Config.alertSpeed then
